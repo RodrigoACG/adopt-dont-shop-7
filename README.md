@@ -1,3 +1,5 @@
+[DTR](https://docs.google.com/document/d/1681_syk2YxtnBkVN-zvPFPBHRNQWzKtQIlcONkF1crM/edit)
+
 # Adopt, don't Shop
 
 This is a paired project used in Turing School's Backend Program Module 2.
