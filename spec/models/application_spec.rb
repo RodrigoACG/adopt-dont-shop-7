@@ -1,5 +1,9 @@
 require 'rails_helper'
 
 RSpec.describe Application, type: :model do
-  pending "add some examples to (or delete) #{__FILE__}"
+  describe '#method_name' do
+    it { should have_many :application_pets} 
+    it { should have_many(:pets).through(:application_pets)}
+    
+  end
 end
