@@ -117,8 +117,6 @@ RSpec.describe "the pets index" do
       expect(page).to have_content("I would make it a great home because I have a tone of space and always loved dogs since I was younger!")
       expect(page).to have_content("In Progress")
       # And I see an indicator that this application is "In Progress"
-
-
     end
   end
 end
