@@ -12,6 +12,9 @@ pet1 = shelter1.pets.create!(adoptable: true, age: 1, breed: "Dobermann", name: 
 pet2 = shelter1.pets.create!(adoptable: false, age: 6, breed: "Poodle", name: "Princess") 
 pet3 = shelter2.pets.create!(adoptable: true, age: 3, breed: "Rottweiler", name: "Pantera") 
 pet4 = shelter2.pets.create!(adoptable: true, age: 1, breed: "Goldendoodle", name: "Lucky") 
+pet5 = shelter2.pets.create!(adoptable: true, age: 7, breed: "Shepherd", name: "Mick") 
+pet6 = shelter2.pets.create!(adoptable: true, age: 10, breed: "Doberman", name: "Luna") 
+pet7 = shelter2.pets.create!(adoptable: true, age: 2, breed: "Labrador", name: "Sunny") 
 
 applicant1 = pet4.applications.create!(name: "Tyara", street_address: "1234 Washington st", city: "Los Angeles", state: "California", zip_code: 90028, description: "Very loving person")
 applicant2 = pet3.applications.create!(name: "Clarisa", street_address: "1234 Washington st", city: "Los Angeles", state: "California", zip_code: 90029, description: "Has one and looking for another and wanted one since a kid.")
