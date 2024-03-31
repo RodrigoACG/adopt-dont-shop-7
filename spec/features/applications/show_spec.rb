@@ -107,5 +107,53 @@ RSpec.describe "Application show page" do
       expect(page).to have_content("Chop")
 
     end
+
+    describe '#us 6' do
+      it 'Has a section to submit an application' do
+        # shelter1 = Shelter.create!(foster_program: true, name: "Adopt a Pet", city: "Denver", rank: 5 )
+        # shelter2 = Shelter.create!(foster_program: true, name: "Rescue Puppy", city: "Los angeles", rank: 5 )
+        shelter1 = Shelter.create!(foster_program: true, name: "Adopt a Pet", city: "Denver", rank: 5 )
+
+        pet1 = shelter1.pets.create!(adoptable: true, age: 1, breed: "Dobermann", name: "Chop") 
+        pet2 = shelter1.pets.create!(adoptable: false, age: 6, breed: "Poodle", name: "Princess") 
+        # pet3 = shelter2.pets.create!(adoptable: true, age: 3, breed: "Rottweiler", name: "Pantera") 
+        # pet4 = shelter2.pets.create!(adoptable: true, age: 1, breed: "Goldendoodle", name: "Lucky") 
+        applicant1 = pet1.applications.create!(name: "Tyara", street_address: "1234 Washington st", city: "Los Angeles", state: "California", zip_code: 90028, description: "Very loving person")
+        applicant1 = pet2.applications.create!(name: "Tyara", street_address: "1234 Washington st", city: "Los Angeles", state: "California", zip_code: 90028, description: "Very loving person")
+
+        # When I visit an application's show page
+        visit "/applications/#{applicant1.id}"
+        # And I have added one or more pets to the application
+        fill_in :search, with: "Chop"
+        click_on("Submit")
+
+        fill_in :search, with: "Princess"
+        click_on("Submit")
+
+        # Then I see a section to submit my application
+        expect(page).to have_content("Submit Application")
+
+        # And in that section I see an input to enter why I would make a good owner for these pet(s)
+        expect(page).to have_field("Please tell us why you would be a good pet owner")
+
+        # When I fill in that input
+        fill_in "Please tell us why you would be a good pet owner"
+        # And I click a button to submit this application
+
+        click_on "Submit Description" #to differentiate between the 'submit' from previously on the page.
+
+        # Then I am taken back to the application's show page
+        expect(current_path).to eq("/applications/#{applicant1.id}")
+
+        # And I see an indicator that the application is "Pending"
+        expect(page).to have_content("Pending") #check enums, don't know if Rodrigo did this
+        # And I see all the pets that I want to adopt
+        expect(page).to have_content(@pet1.name)
+        expect(page).to have_content(@pet2.name)
+        # And I do not see a section to add more pets to this application
+
+        expect(page).not_to have_content("Add a Pet to this Application") # remove header and + label, text field and button
+      end
+    end
   end
 end
