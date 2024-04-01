@@ -15,8 +15,8 @@ class Application < ApplicationRecord
   #   ]
 end
 
-application1 = Application.find(params[:id])
-# get pets using associations
-if application1.pets.count > 0 && status: "In Progress" #syntax 
-  #then change status to Pending ==> update
-end
+# application1 = Application.find(params[:id])
+# # get pets using associations
+# if application1.pets.count > 0 && status: "In Progress" #syntax 
+#   #then change status to Pending ==> update
+# end
