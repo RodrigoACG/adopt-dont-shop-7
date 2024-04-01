@@ -1,33 +1,43 @@
 <h1> Applicant</h1>
 
 <p>Name: <%= @application.name %></p>
-<p>Street Address: <%= @application.street_address %></p>
-<p>City: <%= @application.city %></p>
-<p>State: <%= @application.state%></p>
-<p>Zip Code: <%= @application.zip_code %></p>
+<p>Address: <%= @application.street_address %>,
+<%= @application.city %>,
+<%= @application.state%>,
+<%= @application.zip_code %></p>
 <p>Description: <%= @application.description %></p>
 <p>Status: <%= @application.status %></p>
 
+<h1> Selected Pets: </h1>
 <% @application.pets.each do |pet| %>
-<%= link_to "#{pet.name}", "/pets/#{pet.id}" %>
+<%= link_to "#{pet.name}", "/pets/#{pet.id}" %><br>
 <%end %>
+<!-- if there is a pet here, do the following-->
 
-<h1> Add a Pet to this Application: <h1>
-<%= form_with(url: "/applications/#{@application.id}", method: :get) do |form| %>
-  <%= form.label :search %>
-  <%= form.text_field :search %>
+<% if @application.status == "In Progress"  %>
+  <h1> Add a Pet to this Application: </h1>
+  <%= form_with(url: "/applications/#{@application.id}", method: :get) do |form| %>
+    <%= form.label :search, "Search for Pet:" %>
+    <%= form.text_field :search%>
 
-  <%= form.submit 'Submit' %>
-<% end %>
-
-<% if @pets != nil %>
-  <% @pets.each do|pet| %>
-    <%= pet.name %>
-    <%= button_to "Adopt #{pet.name}", "/applications/#{@application.id}/pets?pet_id=#{pet.id}", method: :post %>
+    <%= form.submit 'Submit Search' %>
   <% end %>
 
+  <!--<% if @pets != nil %>-->
+    <% @pets.each do|pet| %>
+      <%= pet.name %>
+      <%= button_to "Adopt #{pet.name}", "/applications/#{@application.id}/pets?pet_id=#{pet.id}", method: :post %>
+    <% end %> <!--go to app_pets.create , then application.update-->
+  <!--<% end %>-->
+
+
+  <section class='submit_application' %>
+  <h1> Submit Application </h1>
+    <%= form_with(url: "/applications/#{@application.id}", method: :patch) do |f|  %>
+    <%= f.label :endorsement, "Please tell us why you would be a good pet owner"%>
+    <%= f.text_field :endorsement %>
+
+    <%= f.submit 'Submit Application' %>
+  <% end %>
+  </section>
 <% end %>
-
-
-
-  

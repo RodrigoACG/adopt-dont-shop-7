@@ -2,7 +2,6 @@ class ApplicationsController < ApplicationController
 
   def show 
     @application = Application.find(params[:id])
-
     if params[:search].present?
       @pets = Pet.search(params[:search])
     end
@@ -15,7 +14,6 @@ class ApplicationsController < ApplicationController
     else
       redirect_to"/applications/new"
       flash[:alert] = "Error: All fields must be filled out"
-
     end
   end
 
@@ -23,8 +21,16 @@ class ApplicationsController < ApplicationController
 
   end
 
-  private
+  def update
+    application = Application.find(params[:id])
 
+    # if application.num_pets > 0 #&& status: "In Progress" 
+      # application.update!(application_params)
+      application.update!(status: "Pending")
+      redirect_to "/applications/#{application.id}"
+  end
+
+  private
   def application_params
     params.permit(:name, :street_address, :city, :state, :zip_code, :description)
   end
