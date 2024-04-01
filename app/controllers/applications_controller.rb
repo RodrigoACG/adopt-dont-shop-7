@@ -14,7 +14,6 @@ class ApplicationsController < ApplicationController
     else
       redirect_to"/applications/new"
       flash[:alert] = "Error: All fields must be filled out"
-
     end
   end
 
@@ -24,9 +23,11 @@ class ApplicationsController < ApplicationController
 
   def update
     application = Application.find(params[:id])
-    application.update!(application_params)
-    # application.update!(status: "Pending")
-    redirect_to "/applications/#{application.id}"
+
+    # if application.num_pets > 0 #&& status: "In Progress" 
+      # application.update!(application_params)
+      application.update!(status: "Pending")
+      redirect_to "/applications/#{application.id}"
   end
 
   private

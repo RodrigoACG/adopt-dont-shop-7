@@ -7,6 +7,7 @@ RSpec.describe "New Application" do
       # As a visitor
       visit "/applications/new"
       # When I visit the new application page#   
+      fill_in :name, with: ""
       fill_in :street_address, with: "1234 Washington st"
       fill_in :city, with: "Los Angeles"
       fill_in :state, with: "California"
