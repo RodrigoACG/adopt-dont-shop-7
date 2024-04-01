@@ -109,6 +109,7 @@ RSpec.describe "Application show page" do
 
     describe '#us 6' do
       it 'Has a section to submit an application' do
+        Pet.delete_all
         shelter1 = Shelter.create!(foster_program: true, name: "Adopt a Pet", city: "Denver", rank: 5 )
         pet1 = shelter1.pets.create!(adoptable: true, age: 1, breed: "Dobermann", name: "Chop") 
         pet2 = shelter1.pets.create!(adoptable: false, age: 6, breed: "Poodle", name: "Princess") 
@@ -126,17 +127,16 @@ RSpec.describe "Application show page" do
         fill_in :search, with: "Princess"
         click_on("Submit Search")
         click_on("Adopt Princess")
-
-
+        
         within '.submit_application' do
             
           # Then I see a section to submit my application
-          expect(page).to have_button("Submit")
+          expect(page).to have_button("Submit Application")
           # And in that section I see an input to enter why I would make a good owner for these pet(s)
-          expect(page).to have_field("Please tell us why you would be a good pet owner")
+          expect(page).to have_field(:endorsement)
 
           # When I fill in that input
-          fill_in :description, with: "Prefers dogs"
+          fill_in :endorsement, with: "Prefers dogs"
           # And I click a button to submit this application
           click_on "Submit Application" 
         end
@@ -147,8 +147,8 @@ RSpec.describe "Application show page" do
         # And I see an indicator that the application is "Pending"
         expect(page).to have_content("Pending") #check enums, don't know if Rodrigo did this
         # And I see all the pets that I want to adopt
-        expect(page).to have_content(@pet1.name)
-        expect(page).to have_content(@pet2.name)
+        expect(page).to have_content(pet1.name)
+        expect(page).to have_content(pet2.name)
         # And I do not see a section to add more pets to this application
 
         expect(page).not_to have_content("Add a Pet to this Application") # remove header and + label, text field and button

@@ -8,33 +8,36 @@
 <p>Description: <%= @application.description %></p>
 <p>Status: <%= @application.status %></p>
 
-<!-- if there is a pet here, do the following-->
-<h1> Add a Pet to this Application: </h1>
-<%= form_with(url: "/applications/#{@application.id}", method: :get) do |form| %>
-  <%= form.label :search, "Search for Pet:" %>
-  <%= form.text_field :search%>
-
-  <%= form.submit 'Submit Search' %>
-<% end %>
-
-<!--<% if @pets != nil %>-->
-  <% @pets.each do|pet| %>
-    <%= pet.name %>
-    <%= button_to "Adopt #{pet.name}", "/applications/#{@application.id}/pets?pet_id=#{pet.id}", method: :post %>
-  <% end %> <!--go to app_pets.create , then application.update-->
-<!--<% end %>-->
-
 <h1> Selected Pets: </h1>
 <% @application.pets.each do |pet| %>
 <%= link_to "#{pet.name}", "/pets/#{pet.id}" %><br>
 <%end %>
+<!-- if there is a pet here, do the following-->
 
-<section class='submit_application' %>
-<h1> Submit Application </h1>
-  <%= form_with(url: "/applications/#{@application.id}", method: :patch) do |f|  %>
-	<%= f.label :description, "Please tell us why you would be a good pet owner"%>
-	<%= f.text_field :description %> <!--rename this and line 136 spec-->
+<% if @application.status == "In Progress"  %>
+  <h1> Add a Pet to this Application: </h1>
+  <%= form_with(url: "/applications/#{@application.id}", method: :get) do |form| %>
+    <%= form.label :search, "Search for Pet:" %>
+    <%= form.text_field :search%>
 
-	<%= f.submit 'Submit Application' %>
+    <%= form.submit 'Submit Search' %>
+  <% end %>
+
+  <!--<% if @pets != nil %>-->
+    <% @pets.each do|pet| %>
+      <%= pet.name %>
+      <%= button_to "Adopt #{pet.name}", "/applications/#{@application.id}/pets?pet_id=#{pet.id}", method: :post %>
+    <% end %> <!--go to app_pets.create , then application.update-->
+  <!--<% end %>-->
+
+
+  <section class='submit_application' %>
+  <h1> Submit Application </h1>
+    <%= form_with(url: "/applications/#{@application.id}", method: :patch) do |f|  %>
+    <%= f.label :endorsement, "Please tell us why you would be a good pet owner"%>
+    <%= f.text_field :endorsement %>
+
+    <%= f.submit 'Submit Application' %>
+  <% end %>
+  </section>
 <% end %>
-</section>
