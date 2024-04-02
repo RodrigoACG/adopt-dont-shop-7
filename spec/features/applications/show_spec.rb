@@ -106,53 +106,96 @@ RSpec.describe "Application show page" do
       expect(page).to have_content("Chop")
 
     end
+  end
+  describe '#us 6' do
+    it 'Has a section to submit an application' do
+      Pet.delete_all
+      shelter1 = Shelter.create!(foster_program: true, name: "Adopt a Pet", city: "Denver", rank: 5 )
+      pet1 = shelter1.pets.create!(adoptable: true, age: 1, breed: "Dobermann", name: "Chop") 
+      pet2 = shelter1.pets.create!(adoptable: false, age: 6, breed: "Poodle", name: "Princess") 
 
-    describe '#us 6' do
-      it 'Has a section to submit an application' do
-        Pet.delete_all
-        shelter1 = Shelter.create!(foster_program: true, name: "Adopt a Pet", city: "Denver", rank: 5 )
-        pet1 = shelter1.pets.create!(adoptable: true, age: 1, breed: "Dobermann", name: "Chop") 
-        pet2 = shelter1.pets.create!(adoptable: false, age: 6, breed: "Poodle", name: "Princess") 
+      applicant1 = pet1.applications.create!(name: "Tyara", street_address: "1234 Washington st", city: "Los Angeles", state: "California", zip_code: 90028, description: "Very loving person")
+      applicant1 = pet2.applications.create!(name: "Tyara", street_address: "1234 Washington st", city: "Los Angeles", state: "California", zip_code: 90028, description: "Very loving person")
 
-        applicant1 = pet1.applications.create!(name: "Tyara", street_address: "1234 Washington st", city: "Los Angeles", state: "California", zip_code: 90028, description: "Very loving person")
-        applicant1 = pet2.applications.create!(name: "Tyara", street_address: "1234 Washington st", city: "Los Angeles", state: "California", zip_code: 90028, description: "Very loving person")
+      visit "/applications/#{applicant1.id}"
+      
+      # And I have added one or more pets to the application
+      fill_in :search, with: "Chop"
+      click_on("Submit Search")
+      click_on("Adopt Chop")
 
-        visit "/applications/#{applicant1.id}"
-        
-        # And I have added one or more pets to the application
-        fill_in :search, with: "Chop"
-        click_on("Submit Search")
-        click_on("Adopt Chop")
+      fill_in :search, with: "Princess"
+      click_on("Submit Search")
+      click_on("Adopt Princess")
+      
+      within '.submit_application' do
+          
+        # Then I see a section to submit my application
+        expect(page).to have_button("Submit Application")
+        # And in that section I see an input to enter why I would make a good owner for these pet(s)
+        expect(page).to have_field(:endorsement)
 
-        fill_in :search, with: "Princess"
-        click_on("Submit Search")
-        click_on("Adopt Princess")
-        
-        within '.submit_application' do
-            
-          # Then I see a section to submit my application
-          expect(page).to have_button("Submit Application")
-          # And in that section I see an input to enter why I would make a good owner for these pet(s)
-          expect(page).to have_field(:endorsement)
-
-          # When I fill in that input
-          fill_in :endorsement, with: "Prefers dogs"
-          # And I click a button to submit this application
-          click_on "Submit Application" 
-        end
-
-        # Then I am taken back to the application's show page
-        expect(current_path).to eq("/applications/#{applicant1.id}")
-
-        # And I see an indicator that the application is "Pending"
-        expect(page).to have_content("Pending") #check enums, don't know if Rodrigo did this
-        # And I see all the pets that I want to adopt
-        expect(page).to have_content(pet1.name)
-        expect(page).to have_content(pet2.name)
-        # And I do not see a section to add more pets to this application
-
-        expect(page).not_to have_content("Add a Pet to this Application") # remove header and + label, text field and button
+        # When I fill in that input
+        fill_in :endorsement, with: "Prefers dogs"
+        # And I click a button to submit this application
+        click_on "Submit Application" 
       end
+
+      # Then I am taken back to the application's show page
+      expect(current_path).to eq("/applications/#{applicant1.id}")
+
+      # And I see an indicator that the application is "Pending"
+      expect(page).to have_content("Pending") #check enums, don't know if Rodrigo did this
+      # And I see all the pets that I want to adopt
+      expect(page).to have_content(pet1.name)
+      expect(page).to have_content(pet2.name)
+      # And I do not see a section to add more pets to this application
+
+      expect(page).not_to have_content("Add a Pet to this Application") # remove header and + label, text field and button
+    end
+  end
+
+  describe '#us 8 ' do
+    it 'Partial Matches for Pet Names' do
+      shelter1 = Shelter.create!(foster_program: true, name: "Adopt a Pet", city: "Denver", rank: 5 )
+      pet1 = shelter1.pets.create!(adoptable: true, age: 1, breed: "Dobermann", name: "Chop") 
+      pet2 = shelter1.pets.create!(adoptable: false, age: 6, breed: "Poodle", name: "Princess") 
+
+      applicant1 = pet1.applications.create!(name: "Tyara", street_address: "1234 Washington st", city: "Los Angeles", state: "California", zip_code: 90028, description: "Very loving person")
+      applicant1 = pet2.applications.create!(name: "Tyara", street_address: "1234 Washington st", city: "Los Angeles", state: "California", zip_code: 90028, description: "Very loving person")
+
+      # When I visit an application show page
+      visit("/applications/#{applicant1.id}")
+      # And I search for Pets by name
+      fill_in :search, with:"ch"
+      click_on("Submit Search")
+      
+      # Then I see any pet whose name PARTIALLY matches my search
+      # For example, if I search for "fluff", my search would match pets with names "fluffy", "fluff", and "mr. fluff"
+
+      expect(page).to have_content("Chop")
+    end
+  end
+
+  describe '#us 9 ' do
+    it 'Case Insensitive Matches for Pet Names' do
+      shelter1 = Shelter.create!(foster_program: true, name: "Adopt a Pet", city: "Denver", rank: 5 )
+      pet1 = shelter1.pets.create!(adoptable: true, age: 1, breed: "Dobermann", name: "Chop") 
+      pet2 = shelter1.pets.create!(adoptable: false, age: 6, breed: "Poodle", name: "Princess") 
+
+      applicant1 = pet1.applications.create!(name: "Tyara", street_address: "1234 Washington st", city: "Los Angeles", state: "California", zip_code: 90028, description: "Very loving person")
+      applicant1 = pet2.applications.create!(name: "Tyara", street_address: "1234 Washington st", city: "Los Angeles", state: "California", zip_code: 90028, description: "Very loving person")
+
+
+      # When I visit an application show page
+      visit("/applications/#{applicant1.id}")
+      # And I search for Pets by name
+      fill_in :search, with: "cHoP"
+      click_on("Submit Search")
+      # Then my search is case insensitive
+      # For example, if I search for "fluff", my search would match pets with names "Fluffy", "FLUFF", and "Mr. FlUfF"
+
+      expect(page).to have_content("Chop")
     end
   end
 end
