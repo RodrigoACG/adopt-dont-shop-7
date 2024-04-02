@@ -140,23 +140,10 @@ RSpec.describe "Application show page" do
         # And I click a button to submit this application
         click_on "Submit Application" 
       end
-        # When I fill in that input
-        fill_in :endorsement, with: "Prefers dogs"
-        # And I click a button to submit this application
-        click_on "Submit Application" 
-      end
 
       # Then I am taken back to the application's show page
       expect(current_path).to eq("/applications/#{applicant1.id}")
-      # Then I am taken back to the application's show page
-      expect(current_path).to eq("/applications/#{applicant1.id}")
 
-      # And I see an indicator that the application is "Pending"
-      expect(page).to have_content("Pending") #check enums, don't know if Rodrigo did this
-      # And I see all the pets that I want to adopt
-      expect(page).to have_content(pet1.name)
-      expect(page).to have_content(pet2.name)
-      # And I do not see a section to add more pets to this application
       # And I see an indicator that the application is "Pending"
       expect(page).to have_content("Pending") #check enums, don't know if Rodrigo did this
       # And I see all the pets that I want to adopt
