@@ -33,6 +33,7 @@ class Shelter < ApplicationRecord
   end
 
   def self.reverse_alpha_order
-    require 'pry' ; binding.pry
+    # Shelter.order(name: :desc).to_sql
+    find_by_sql("SELECT * FROM shelters ORDER BY name desc")
   end
 end
