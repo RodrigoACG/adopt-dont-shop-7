@@ -12,7 +12,6 @@
 <% @application.pets.each do |pet| %>
 <%= link_to "#{pet.name}", "/pets/#{pet.id}" %><br>
 <%end %>
-<!-- if there is a pet here, do the following-->
 
 <% if @application.status == "In Progress"  %>
   <h1> Add a Pet to this Application: </h1>
@@ -29,9 +28,10 @@
       <%= button_to "Adopt #{pet.name}", "/applications/#{@application.id}/pets?pet_id=#{pet.id}", method: :post %>
     <% end %> <!--go to app_pets.create , then application.update-->
   <!--<% end %>-->
+<% end %>
 
-
-  <section class='submit_application' %>
+<% if @application.pets.any? && @application.status == "In Progress"  %>
+  <section class='submit_application'>
   <h1> Submit Application </h1>
     <%= form_with(url: "/applications/#{@application.id}", method: :patch) do |f|  %>
     <%= f.label :endorsement, "Please tell us why you would be a good pet owner"%>

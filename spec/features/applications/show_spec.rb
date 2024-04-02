@@ -160,13 +160,12 @@ RSpec.describe "Application show page" do
       pet1 = shelter1.pets.create!(adoptable: true, age: 1, breed: "Dobermann", name: "Chop") 
       pet2 = shelter1.pets.create!(adoptable: false, age: 6, breed: "Poodle", name: "Princess") 
 
-      applicant1 = pet1.applications.create!(name: "Tyara", street_address: "1234 Washington st", city: "Los Angeles", state: "California", zip_code: 90028, description: "Very loving person")
-      applicant1 = pet2.applications.create!(name: "Tyara", street_address: "1234 Washington st", city: "Los Angeles", state: "California", zip_code: 90028, description: "Very loving person")
+      applicant1 = Application.create!(name: "Tyara", street_address: "1234 Washington st", city: "Los Angeles", state: "California", zip_code: 90028, description: "Very loving person")
 
       visit "/applications/#{applicant1.id}"
 
-      expect(page).to_not have_content(pet1.name)
-      expect(page).to_not have_content("Submit Application")
+      expect(page).not_to have_content(pet1.name)
+      expect(page).not_to have_css('.submit_application', visible: :all)
     end
   end
 end
