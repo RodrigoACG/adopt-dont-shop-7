@@ -1,5 +1,6 @@
 class AdminSheltersController < ApplicationController
   def index 
-    @shelters = Shelters.reverse_alpha_order # need to make this method
+    require 'pry' ; binding.pry
+    @shelters = Shelter.reverse_alpha_order # need to make this method
   end
 end

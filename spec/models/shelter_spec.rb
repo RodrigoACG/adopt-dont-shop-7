@@ -30,6 +30,13 @@ RSpec.describe Shelter, type: :model do
       end
     end
 
+  describe "admin class methods" do
+    describe "reverse_alpha_order" do
+      it "orders shelter name alphabetically by reverse" do
+        expect(Shelter.reverse_alpha_order).to eq([@shelter2, @shelter3, @shelter1])
+      end
+    end
+
     describe "#order_by_recently_created" do
       it "returns shelters with the most recently created first" do
         expect(Shelter.order_by_recently_created).to eq([@shelter_3, @shelter_2, @shelter_1])

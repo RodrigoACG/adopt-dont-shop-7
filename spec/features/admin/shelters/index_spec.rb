@@ -10,10 +10,10 @@ RSpec.describe 'admin shelter index page', type: :feature do
 
         visit "/admin/shelters"
       end
-
+      
       it 'displays shelters in reverse alphabetical order' do
-        expect(@shelter_1.name).to appear_before(@shelter_3.name)
-        expect(@shelter_3.name).to appear_before(@shelter_2.name)
+        expect(@shelter_2.name).to appear_before(@shelter_3.name)
+        expect(@shelter_3.name).to appear_before(@shelter_1.name)
       end
     end 
   end
