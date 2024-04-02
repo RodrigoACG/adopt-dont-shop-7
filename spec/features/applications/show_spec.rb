@@ -177,4 +177,25 @@ RSpec.describe "Application show page" do
     end
   end
 
+  describe '#us 9 ' do
+    it 'Case Insensitive Matches for Pet Names' do
+      shelter1 = Shelter.create!(foster_program: true, name: "Adopt a Pet", city: "Denver", rank: 5 )
+      pet1 = shelter1.pets.create!(adoptable: true, age: 1, breed: "Dobermann", name: "Chop") 
+      pet2 = shelter1.pets.create!(adoptable: false, age: 6, breed: "Poodle", name: "Princess") 
+
+      applicant1 = pet1.applications.create!(name: "Tyara", street_address: "1234 Washington st", city: "Los Angeles", state: "California", zip_code: 90028, description: "Very loving person")
+      applicant1 = pet2.applications.create!(name: "Tyara", street_address: "1234 Washington st", city: "Los Angeles", state: "California", zip_code: 90028, description: "Very loving person")
+
+
+      # When I visit an application show page
+      visit("/applications/#{applicant1.id}")
+      # And I search for Pets by name
+      fill_in :search, with: "cHoP"
+      click_on("Submit Search")
+      # Then my search is case insensitive
+      # For example, if I search for "fluff", my search would match pets with names "Fluffy", "FLUFF", and "Mr. FlUfF"
+
+      expect(page).to have_content("Chop")
+    end
+  end
 end
