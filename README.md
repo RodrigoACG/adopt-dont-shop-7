@@ -1,5 +1,8 @@
 [DTR](https://docs.google.com/document/d/1681_syk2YxtnBkVN-zvPFPBHRNQWzKtQIlcONkF1crM/edit)
 [Heroku Url](https://adopt-dont-shop-7-052f66a0500b.herokuapp.com/)
+[Miro](https://miro.com/app/board/uXjVKaM63FI=/#tpicker-content)
+[Git Hub Projects](https://github.com/users/RodrigoACG/projects/5)
+
 # Adopt, don't Shop
 
 This is a paired project used in Turing School's Backend Program Module 2.
