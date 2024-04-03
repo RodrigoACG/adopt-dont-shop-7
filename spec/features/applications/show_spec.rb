@@ -85,23 +85,30 @@ RSpec.describe "Application show page" do
   describe '#us 5' do
     it 'Add a pet to an application' do
       shelter1 = Shelter.create!(foster_program: true, name: "Adopt a Pet", city: "Denver", rank: 8 )
+      
       pet1 = shelter1.pets.create!(adoptable: true, age: 1, breed: "Dobermann", name: "Chop") 
 
       applicant1 = Application.create!(name: "Martin", street_address: "4532 Washington st", city: "Denver", state: "Colorado", zip_code: 80000, description: "Will treat dog as its own kid")
 
       # When I visit an application's show page
       visit "/applications/#{applicant1.id}"
+
       # And I search for a Pet by name
       fill_in :search, with: "Chop"
       # And I see the names Pets that match my search
       click_on("Submit Search")
+
       expect(page).to have_content("Chop")
+
       # Then next to each Pet's name I see a button to "Adopt this Pet"
       expect(page).to have_button("Adopt #{pet1.name}")
+
       # When I click one of these buttons
       click_on("Adopt #{pet1.name}")
+
       # Then I am taken back to the application show page
       expect(current_path).to eq("/applications/#{applicant1.id}")
+
       # And I see the Pet I want to adopt listed on this application
       expect(page).to have_content("Chop")
     end
