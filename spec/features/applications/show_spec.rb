@@ -161,6 +161,22 @@ RSpec.describe "Application show page" do
       expect(page).not_to have_content("Add a Pet to this Application") # remove header and + label, text field and button
     end
   end
+  
+  describe "#US 7" do
+  # adding this to push it up again
+    it "Doesn't see section to submit application if there are not pets" do
+      shelter1 = Shelter.create!(foster_program: true, name: "Adopt a Pet", city: "Denver", rank: 5 )
+      pet1 = shelter1.pets.create!(adoptable: true, age: 1, breed: "Dobermann", name: "Chop") 
+      pet2 = shelter1.pets.create!(adoptable: false, age: 6, breed: "Poodle", name: "Princess") 
+
+      applicant1 = Application.create!(name: "Tyara", street_address: "1234 Washington st", city: "Los Angeles", state: "California", zip_code: 90028, description: "Very loving person")
+
+      visit "/applications/#{applicant1.id}"
+
+      expect(page).not_to have_content(pet1.name)
+      expect(page).not_to have_css('.submit_application', visible: :all)
+    end
+  end
 
   describe '#us 8 ' do
     it 'Partial Matches for Pet Names' do
