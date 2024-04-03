@@ -13,14 +13,14 @@ RSpec.describe "Application show page" do
       pet3 = shelter2.pets.create!(adoptable: true, age: 3, breed: "Rottweiler", name: "Pantera") 
       pet4 = shelter2.pets.create!(adoptable: true, age: 1, breed: "Goldendoodle", name: "Lucky") 
 
-      applicant1 = pet4.applications.create!(name: "Tyara", street_address: "1234 Washington st", city: "Los Angeles", state: "California", zip_code: 90028, description: "Very loving person")
-      applicant2 = pet3.applications.create!(name: "Clarisa", street_address: "1234 Washington st", city: "Los Angeles", state: "California", zip_code: 90029, description: "Has one and looking for another and wanted one since a kid.")
-      applicant3 = pet1.applications.create!(name: "Martin", street_address: "4532 Washington st", city: "Denver", state: "Colorado", zip_code: 80000, description: "Will treat dog as its own kid")
-      applicant4 = pet2.applications.create!(name: "Ezequiel", street_address: "4532 Washington st", city: "Denver", state: "Colorado", zip_code: 80001, description: "Has had one in the past and alway treated them with love")
+      application1 = pet4.applications.create!(name: "Tyara", street_address: "1234 Washington st", city: "Los Angeles", state: "California", zip_code: 90028, description: "Very loving person")
+      application2 = pet3.applications.create!(name: "Clarisa", street_address: "1234 Washington st", city: "Los Angeles", state: "California", zip_code: 90029, description: "Has one and looking for another and wanted one since a kid.")
+      application3 = pet1.applications.create!(name: "Martin", street_address: "4532 Washington st", city: "Denver", state: "Colorado", zip_code: 80000, description: "Will treat dog as its own kid")
+      application4 = pet2.applications.create!(name: "Ezequiel", street_address: "4532 Washington st", city: "Denver", state: "Colorado", zip_code: 80001, description: "Has had one in the past and alway treated them with love")
       # When I visit an applications show page
-      visit "/applications/#{applicant1.id}"
+      visit "/applications/#{application1.id}"
       # Then I can see the following:
-      # - Name of the Applicant
+      # - Name of the application
       # - Full Address of the Applicant including street address, city, state, and zip code
       # - Description of why the applicant says they'd be a good home for this pet(s)
       # - names of all pets that this application is for (all names of pets should be links to their show page)
@@ -57,14 +57,14 @@ RSpec.describe "Application show page" do
       pet3 = shelter2.pets.create!(adoptable: true, age: 3, breed: "Rottweiler", name: "Pantera") 
       pet4 = shelter2.pets.create!(adoptable: true, age: 1, breed: "Goldendoodle", name: "Lucky") 
 
-      applicant1 = pet4.applications.create!(name: "Tyara", street_address: "1234 Washington st", city: "Los Angeles", state: "California", zip_code: 90028, description: "Very loving person")
-      applicant2 = pet3.applications.create!(name: "Clarisa", street_address: "1234 Washington st", city: "Los Angeles", state: "California", zip_code: 90029, description: "Has one and looking for another and wanted one since a kid.")
-      applicant3 = pet1.applications.create!(name: "Martin", street_address: "4532 Washington st", city: "Denver", state: "Colorado", zip_code: 80000, description: "Will treat dog as its own kid")
-      applicant4 = pet2.applications.create!(name: "Ezequiel", street_address: "4532 Washington st", city: "Denver", state: "Colorado", zip_code: 80001, description: "Has had one in the past and alway treated them with love")
+      application1 = pet4.applications.create!(name: "Tyara", street_address: "1234 Washington st", city: "Los Angeles", state: "California", zip_code: 90028, description: "Very loving person")
+      application2 = pet3.applications.create!(name: "Clarisa", street_address: "1234 Washington st", city: "Los Angeles", state: "California", zip_code: 90029, description: "Has one and looking for another and wanted one since a kid.")
+      application3 = pet1.applications.create!(name: "Martin", street_address: "4532 Washington st", city: "Denver", state: "Colorado", zip_code: 80000, description: "Will treat dog as its own kid")
+      application4 = pet2.applications.create!(name: "Ezequiel", street_address: "4532 Washington st", city: "Denver", state: "Colorado", zip_code: 80001, description: "Has had one in the past and alway treated them with love")
 
       # As a visitor
       # When I visit an application's show page
-      visit "/applications/#{applicant1.id}"
+      visit "/applications/#{application1.id}"
       # And that application has not been submitted,
       # Then I see a section on the page to "Add a Pet to this Application"
       expect(page).to have_content("Add a Pet to this Application:")
@@ -75,7 +75,7 @@ RSpec.describe "Application show page" do
       # And I click submit,
 
       click_on("Submit Search")
-      expect(current_path).to eq("/applications/#{applicant1.id}")
+      expect(current_path).to eq("/applications/#{application1.id}")
       expect(page).to have_content("Chop")
       # Then I am taken back to the application show page
       # And under the search bar I see any Pet whose name matches my search
@@ -88,10 +88,10 @@ RSpec.describe "Application show page" do
       
       pet1 = shelter1.pets.create!(adoptable: true, age: 1, breed: "Dobermann", name: "Chop") 
 
-      applicant1 = Application.create!(name: "Martin", street_address: "4532 Washington st", city: "Denver", state: "Colorado", zip_code: 80000, description: "Will treat dog as its own kid")
+      application1 = Application.create!(name: "Martin", street_address: "4532 Washington st", city: "Denver", state: "Colorado", zip_code: 80000, description: "Will treat dog as its own kid")
 
       # When I visit an application's show page
-      visit "/applications/#{applicant1.id}"
+      visit "/applications/#{application1.id}"
 
       # And I search for a Pet by name
       fill_in :search, with: "Chop"
@@ -107,7 +107,7 @@ RSpec.describe "Application show page" do
       click_on("Adopt #{pet1.name}")
 
       # Then I am taken back to the application show page
-      expect(current_path).to eq("/applications/#{applicant1.id}")
+      expect(current_path).to eq("/applications/#{application1.id}")
 
       # And I see the Pet I want to adopt listed on this application
       expect(page).to have_content("Chop")
@@ -121,10 +121,10 @@ RSpec.describe "Application show page" do
       pet1 = shelter1.pets.create!(adoptable: true, age: 1, breed: "Dobermann", name: "Chop") 
       pet2 = shelter1.pets.create!(adoptable: false, age: 6, breed: "Poodle", name: "Princess") 
 
-      applicant1 = pet1.applications.create!(name: "Tyara", street_address: "1234 Washington st", city: "Los Angeles", state: "California", zip_code: 90028, description: "Very loving person")
-      applicant1 = pet2.applications.create!(name: "Tyara", street_address: "1234 Washington st", city: "Los Angeles", state: "California", zip_code: 90028, description: "Very loving person")
+      application1 = pet1.applications.create!(name: "Tyara", street_address: "1234 Washington st", city: "Los Angeles", state: "California", zip_code: 90028, description: "Very loving person")
+      application1 = pet2.applications.create!(name: "Tyara", street_address: "1234 Washington st", city: "Los Angeles", state: "California", zip_code: 90028, description: "Very loving person")
 
-      visit "/applications/#{applicant1.id}"
+      visit "/applications/#{application1.id}"
       
       # And I have added one or more pets to the application
       fill_in :search, with: "Chop"
@@ -149,7 +149,7 @@ RSpec.describe "Application show page" do
       # end
 
       # Then I am taken back to the application's show page
-      expect(current_path).to eq("/applications/#{applicant1.id}")
+      expect(current_path).to eq("/applications/#{application1.id}")
 
       # And I see an indicator that the application is "Pending"
       expect(page).to have_content("Pending") #check enums, don't know if Rodrigo did this
@@ -169,9 +169,9 @@ RSpec.describe "Application show page" do
       pet1 = shelter1.pets.create!(adoptable: true, age: 1, breed: "Dobermann", name: "Chop") 
       pet2 = shelter1.pets.create!(adoptable: false, age: 6, breed: "Poodle", name: "Princess") 
 
-      applicant1 = Application.create!(name: "Tyara", street_address: "1234 Washington st", city: "Los Angeles", state: "California", zip_code: 90028, description: "Very loving person")
+      application1 = Application.create!(name: "Tyara", street_address: "1234 Washington st", city: "Los Angeles", state: "California", zip_code: 90028, description: "Very loving person")
 
-      visit "/applications/#{applicant1.id}"
+      visit "/applications/#{application1.id}"
 
       expect(page).not_to have_content(pet1.name)
     end
@@ -183,11 +183,11 @@ RSpec.describe "Application show page" do
       pet1 = shelter1.pets.create!(adoptable: true, age: 1, breed: "Dobermann", name: "Chop") 
       pet2 = shelter1.pets.create!(adoptable: false, age: 6, breed: "Poodle", name: "Princess") 
 
-      applicant1 = pet1.applications.create!(name: "Tyara", street_address: "1234 Washington st", city: "Los Angeles", state: "California", zip_code: 90028, description: "Very loving person")
-      applicant1 = pet2.applications.create!(name: "Tyara", street_address: "1234 Washington st", city: "Los Angeles", state: "California", zip_code: 90028, description: "Very loving person")
+      application1 = pet1.applications.create!(name: "Tyara", street_address: "1234 Washington st", city: "Los Angeles", state: "California", zip_code: 90028, description: "Very loving person")
+      application1 = pet2.applications.create!(name: "Tyara", street_address: "1234 Washington st", city: "Los Angeles", state: "California", zip_code: 90028, description: "Very loving person")
 
       # When I visit an application show page
-      visit("/applications/#{applicant1.id}")
+      visit("/applications/#{application1.id}")
       # And I search for Pets by name
       fill_in :search, with:"ch"
       click_on("Submit Search")
@@ -205,12 +205,12 @@ RSpec.describe "Application show page" do
       pet1 = shelter1.pets.create!(adoptable: true, age: 1, breed: "Dobermann", name: "Chop") 
       pet2 = shelter1.pets.create!(adoptable: false, age: 6, breed: "Poodle", name: "Princess") 
 
-      applicant1 = pet1.applications.create!(name: "Tyara", street_address: "1234 Washington st", city: "Los Angeles", state: "California", zip_code: 90028, description: "Very loving person")
-      applicant1 = pet2.applications.create!(name: "Tyara", street_address: "1234 Washington st", city: "Los Angeles", state: "California", zip_code: 90028, description: "Very loving person")
+      application1 = pet1.applications.create!(name: "Tyara", street_address: "1234 Washington st", city: "Los Angeles", state: "California", zip_code: 90028, description: "Very loving person")
+      application1 = pet2.applications.create!(name: "Tyara", street_address: "1234 Washington st", city: "Los Angeles", state: "California", zip_code: 90028, description: "Very loving person")
 
 
       # When I visit an application show page
-      visit("/applications/#{applicant1.id}")
+      visit("/applications/#{application1.id}")
       # And I search for Pets by name
       fill_in :search, with: "cHoP"
       click_on("Submit Search")
