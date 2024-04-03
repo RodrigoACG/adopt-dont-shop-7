@@ -31,6 +31,7 @@
   <!--<% end %>-->
 
 
+  <section class='submit_application' %>
   <h1> Submit Application </h1>
     <%= form_with(url: "/applications/#{@application.id}", method: :patch) do |f|  %>
     <%= f.label :endorsement, "Please tell us why you would be a good pet owner"%>
@@ -38,6 +39,7 @@
 
     <%= f.submit 'Submit Application' %>
   <% end %>
+  </section>
 <% end %>
 
 
