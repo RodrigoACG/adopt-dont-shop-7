@@ -3,6 +3,7 @@ require "rails_helper"
 RSpec.describe Shelter, type: :model do
   describe "relationships" do
     it { should have_many(:pets) }
+
   end
 
   describe "validations" do
@@ -21,6 +22,7 @@ RSpec.describe Shelter, type: :model do
     @pet_2 = @shelter_1.pets.create(name: "Clawdia", breed: "shorthair", age: 3, adoptable: true)
     @pet_3 = @shelter_3.pets.create(name: "Lucille Bald", breed: "sphynx", age: 8, adoptable: true)
     @pet_4 = @shelter_1.pets.create(name: "Ann", breed: "ragdoll", age: 5, adoptable: true)
+
   end
 
   describe "class methods" do
@@ -34,6 +36,33 @@ RSpec.describe Shelter, type: :model do
     describe "reverse_alpha_order" do
       it "orders shelter name alphabetically by reverse" do
         expect(Shelter.reverse_alpha_order).to eq([@shelter_2, @shelter_3, @shelter_1])
+      end
+    end
+  end
+
+  describe "admin instance methods" do
+    describe "#pending_applications?" do
+      it "displays only shelters with pending applications" do
+        # Pet.delete_all
+        # Shelter.delete_all
+        shelter_1 = Shelter.create(name: "Aurora shelter", city: "Aurora, CO", foster_program: false, rank: 9)
+        shelter_2 = Shelter.create(name: "RGV animal shelter", city: "Harlingen, TX", foster_program: false, rank: 5)
+        shelter_3 = Shelter.create(name: "Fancy pets of Colorado", city: "Denver, CO", foster_program: true, rank: 10)
+        
+        
+        pet1 = shelter_1.pets.create!(adoptable: true, age: 1, breed: "Dobermann", name: "Chop") 
+        pet2 = shelter_1.pets.create!(adoptable: false, age: 6, breed: "Poodle", name: "Princess") 
+        pet3 = shelter_3.pets.create!(adoptable: true, age: 3, breed: "Rottweiler", name: "Pantera") 
+        pet4 = shelter_1.pets.create(name: "Ann", breed: "ragdoll", age: 5, adoptable: true)
+
+        application1 = Application.create!(name: "Tyara", street_address: "1234 Washington st", city: "Los Angeles", state: "California", zip_code: 90028, description: "Very loving person", status: "Pending")
+        application2 = Application.create!(name: "Clarisa", street_address: "1234 Washington st", city: "Los Angeles", state: "California", zip_code: 90029, description: "Has one and looking for another and wanted one since a kid.", status: "Pending")
+
+        application_pet_1 = ApplicationPet.create!(application_id: application1.id, pet_id: pet1.id)
+        application_pet_2 = ApplicationPet.create!(application_id: application2.id, pet_id: pet3.id)
+        expect(Shelter.pending_applications).to eq([shelter_1, shelter_3])
+        # expect(shelter_3.pending_applications?).to be(true)
+        # expect(shelter_2.pending_applications?).to be(false)
       end
     end
   end
