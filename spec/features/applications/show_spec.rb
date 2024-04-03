@@ -140,11 +140,6 @@ RSpec.describe "Application show page" do
         # And I click a button to submit this application
         click_on "Submit Application" 
       end
-        # When I fill in that input
-        fill_in :endorsement, with: "Prefers dogs"
-        # And I click a button to submit this application
-        click_on "Submit Application" 
-      end
 
       # Then I am taken back to the application's show page
       expect(current_path).to eq("/applications/#{applicant1.id}")
