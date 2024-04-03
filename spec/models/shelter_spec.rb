@@ -33,7 +33,7 @@ RSpec.describe Shelter, type: :model do
   describe "admin class methods" do
     describe "reverse_alpha_order" do
       it "orders shelter name alphabetically by reverse" do
-        expect(Shelter.reverse_alpha_order).to eq([@shelter_2.name, @shelter_3.name, @shelter_1.name])
+        expect(Shelter.reverse_alpha_order).to eq([@shelter_2, @shelter_3, @shelter_1])
       end
     end
   end
