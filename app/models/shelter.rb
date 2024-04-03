@@ -5,7 +5,7 @@ class Shelter < ApplicationRecord
 
   has_many :pets, dependent: :destroy
   has_many :application_pets, through: :pets
-  has_many :applications, through: :application_pets
+  has_many :applications, through: :pets
 
 
   def self.order_by_recently_created
@@ -40,8 +40,10 @@ class Shelter < ApplicationRecord
     find_by_sql("SELECT * FROM shelters ORDER BY name desc")
   end
 
-  def pending_applications?
-    #how do I make this a boolean
-    Shelter.joins(:pets, :applications).where("status ='Pending'").count > 0
+  def self.pending_applications
+    Shelter.joins(pets: {application_pets: :application}).where(applications: {status: "Pending"}).to_a
+    
+    # joins(:applications).where("status ='Pending'").pluck(:name).count > 0 # = shelters collection
+    #select columns from different tables I want
   end
 end

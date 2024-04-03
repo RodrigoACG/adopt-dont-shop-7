@@ -17,7 +17,7 @@ pet5 = shelter2.pets.create!(adoptable: true, age: 7, breed: "Shepherd", name: "
 pet6 = shelter2.pets.create!(adoptable: true, age: 10, breed: "Doberman", name: "Luna") 
 pet7 = shelter2.pets.create!(adoptable: true, age: 2, breed: "Labrador", name: "Sunny") 
 
-applicant1 = Application.create!(name: "Tyara", street_address: "1234 Washington st", city: "Los Angeles", state: "California", zip_code: 90028, description: "Very loving person")
-applicant2 = Application.create!(name: "Clarisa", street_address: "1234 Washington st", city: "Los Angeles", state: "California", zip_code: 90029, description: "Has one and looking for another and wanted one since a kid.")
-applicant3 = Application.create!(name: "Martin", street_address: "4532 Washington st", city: "Denver", state: "Colorado", zip_code: 80000, description: "Will treat dog as its own kid")
-applicant4 = Application.create!(name: "Ezequiel", street_address: "4532 Washington st", city: "Denver", state: "Colorado", zip_code: 80001, description: "Has had one in the past and alway treated them with love")
+application1 = Application.create!(name: "Tyara", street_address: "1234 Washington st", city: "Los Angeles", state: "California", zip_code: 90028, description: "Very loving person")
+application2 = Application.create!(name: "Clarisa", street_address: "1234 Washington st", city: "Los Angeles", state: "California", zip_code: 90029, description: "Has one and looking for another and wanted one since a kid.")
+application3 = Application.create!(name: "Martin", street_address: "4532 Washington st", city: "Denver", state: "Colorado", zip_code: 80000, description: "Will treat dog as its own kid")
+application4 = Application.create!(name: "Ezequiel", street_address: "4532 Washington st", city: "Denver", state: "Colorado", zip_code: 80001, description: "Has had one in the past and alway treated them with love")

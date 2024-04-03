@@ -3,6 +3,7 @@ require "rails_helper"
 RSpec.describe Shelter, type: :model do
   describe "relationships" do
     it { should have_many(:pets) }
+
   end
 
   describe "validations" do
@@ -42,6 +43,8 @@ RSpec.describe Shelter, type: :model do
   describe "admin instance methods" do
     describe "#pending_applications?" do
       it "displays only shelters with pending applications" do
+        # Pet.delete_all
+        # Shelter.delete_all
         shelter_1 = Shelter.create(name: "Aurora shelter", city: "Aurora, CO", foster_program: false, rank: 9)
         shelter_2 = Shelter.create(name: "RGV animal shelter", city: "Harlingen, TX", foster_program: false, rank: 5)
         shelter_3 = Shelter.create(name: "Fancy pets of Colorado", city: "Denver, CO", foster_program: true, rank: 10)
@@ -57,10 +60,9 @@ RSpec.describe Shelter, type: :model do
 
         application_pet_1 = ApplicationPet.create!(application_id: application1.id, pet_id: pet1.id)
         application_pet_2 = ApplicationPet.create!(application_id: application2.id, pet_id: pet3.id)
-        
-        expect(shelter_1.pending_applications?).to be(true)
-        expect(shelter_3.pending_applications?).to be(true)
-        expect(shelter_2.pending_applications?).to be(true)
+        expect(Shelter.pending_applications).to eq([shelter_1, shelter_3])
+        # expect(shelter_3.pending_applications?).to be(true)
+        # expect(shelter_2.pending_applications?).to be(false)
       end
     end
   end
