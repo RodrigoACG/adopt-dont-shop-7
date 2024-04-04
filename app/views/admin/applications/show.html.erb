@@ -1,0 +1,12 @@
+<% @application.application_pets.each do |app_pet| %>
+  <div id="AppPet-<%= app_pet.pet_id %>">
+  <% app_pet.pet.name %>
+
+  <%  if !app_pet.status.nil? %>
+      <%= app_pet.status %>
+    <% else  %>
+      <%= button_to "Approve #{app_pet.pet.name}", "/admin/applications/#{@application.id}/pets/#{app_pet.pet_id}/?status=Approved", method: :patch %>  
+      <%= button_to "Reject #{app_pet.pet.name}", "/admin/applications/#{@application.id}/pets/#{app_pet.pet_id}/?status=Rejected", method: :patch %>  
+  <% end %>
+  </div>
+<% end %>
