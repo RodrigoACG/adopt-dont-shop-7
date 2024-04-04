@@ -2,11 +2,9 @@
 <h1>All pets</h1>
 <h2>  <%= link_to 'Start an Application', "/applications/new"  %></h2>
 
-<%= form_with url: "/pets", method: :get, local: true do |f| %>
-  <%= f.label :search %>
-  <%= f.text_field :search %>
-  <%= f.submit "Search" %>
-<% end %>
+<%= render partial: "search_form", locals: {path: '/pets',
+                                            method: :get,
+                                            button_text: "Search"} %>
 
 
 <% @pets.each do |pet| %>
